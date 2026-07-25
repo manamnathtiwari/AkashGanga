@@ -9,19 +9,15 @@ services:
       - key: AKASHGANGA_SOLVER_BACKEND
         value: astrometry_net
       - key: AKASHGANGA_ASTROMETRY_API_KEY
-        sync: false          # set manually in Render dashboard
+        sync: false
       - key: AKASHGANGA_JWT_SECRET
-        generateValue: true  # Render generates a secure random value
+        generateValue: true
       - key: AKASHGANGA_DATABASE_URL
         value: sqlite+aiosqlite:///./akashganga.db
       - key: AKASHGANGA_UPLOAD_DIR
-        value: ./uploads
+        value: /tmp/uploads
       - key: AKASHGANGA_CORS_ORIGINS
         value: "*"
       - key: AKASHGANGA_ASTROMETRY_BASE_URL
         value: https://nova.astrometry.net/api
-    disk:
-      name: akashganga-data
-      mountPath: /opt/render/project/src/backend
-      sizeGB: 1
     healthCheckPath: /api/health
