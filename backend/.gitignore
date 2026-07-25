@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.db
+uploads/
+.env
+
+# OS
+.DS_Store
+
+# Test / build
+.pytest_cache/
+*.egg-info/

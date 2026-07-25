@@ -1,0 +1,22 @@
+services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      AKASHGANGA_DATABASE_URL: sqlite+aiosqlite:///./akashganga.db
+      AKASHGANGA_UPLOAD_DIR: ./uploads
+      AKASHGANGA_SOLVER_BACKEND: astrometry_net
+      # Set these in .env or pass directly:
+      AKASHGANGA_ASTROMETRY_API_KEY: ${AKASHGANGA_ASTROMETRY_API_KEY}
+      AKASHGANGA_JWT_SECRET: ${AKASHGANGA_JWT_SECRET}
+      AKASHGANGA_CORS_ORIGINS: ${AKASHGANGA_CORS_ORIGINS:-http://localhost:3000}
+    volumes:
+      - ./backend/akashganga.db:/app/akashganga.db
+      - ./backend/uploads:/app/uploads
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

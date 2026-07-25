@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: akashganga-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: AKASHGANGA_SOLVER_BACKEND
+        value: astrometry_net
+      - key: AKASHGANGA_ASTROMETRY_API_KEY
+        sync: false          # set manually in Render dashboard
+      - key: AKASHGANGA_JWT_SECRET
+        generateValue: true  # Render generates a secure random value
+      - key: AKASHGANGA_DATABASE_URL
+        value: sqlite+aiosqlite:///./akashganga.db
+      - key: AKASHGANGA_UPLOAD_DIR
+        value: ./uploads
+      - key: AKASHGANGA_CORS_ORIGINS
+        value: "*"
+      - key: AKASHGANGA_ASTROMETRY_BASE_URL
+        value: https://nova.astrometry.net/api
+    disk:
+      name: akashganga-data
+      mountPath: /opt/render/project/src/backend
+      sizeGB: 1
+    healthCheckPath: /api/health
